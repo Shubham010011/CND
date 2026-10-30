@@ -1,0 +1,1 @@
+package com.cryptox.dto; import java.math.BigDecimal; import java.time.Instant; public record InternalTradeResponse(Long transactionId,String type,String fromCoinSymbol,BigDecimal fromAmount,String toCoinSymbol,BigDecimal toAmount,BigDecimal executionPriceUsd,Instant timestamp){}

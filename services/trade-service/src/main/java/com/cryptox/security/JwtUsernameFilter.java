@@ -1,0 +1,30 @@
+package com.cryptox.security;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+@Component
+public class JwtUsernameFilter extends OncePerRequestFilter {
+    @Value("${app.jwt.secret}")
+    String secret;
+
+    protected void doFilterInternal(HttpServletRequest r, HttpServletResponse p, FilterChain c)
+            throws ServletException, IOException {
+        String h = r.getHeader("Authorization");
+        if (h != null && h.startsWith("Bearer "))
+            try {
+                String u = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8))).build()
+                        .parseSignedClaims(h.substring(7)).getPayload().getSubject();
+                r.setAttribute("username", u);
+            } catch (Exception ignored) {
+            }
+        c.doFilter(r, p);
+    }
+}

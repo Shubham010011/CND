@@ -1,0 +1,1 @@
+package com.cryptox.dto; import java.math.BigDecimal; public record InternalTradeRequest(String username,String type,String fromCoinSymbol,BigDecimal fromAmount,String toCoinSymbol,BigDecimal toAmount,BigDecimal executionPriceUsd){}

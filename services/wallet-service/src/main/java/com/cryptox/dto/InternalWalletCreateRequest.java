@@ -1,0 +1,1 @@
+package com.cryptox.dto; public record InternalWalletCreateRequest(String username){}
